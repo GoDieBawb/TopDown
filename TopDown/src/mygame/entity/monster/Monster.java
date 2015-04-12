@@ -4,11 +4,13 @@
  */
 package mygame.entity.monster;
 
+import mygame.entity.Vulnerable;
+
 /**
  *
  * @author Bawb
  */
-public interface Monster {
+public interface Monster extends Vulnerable {
     
     public void attack();
     

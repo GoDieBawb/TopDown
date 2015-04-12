@@ -25,6 +25,7 @@ public class PlayerManager {
     public void initPlayer() {
         player.createPhys();
         player.createControl();
+        player.createAttackControl();
         GameManager gm = app.getStateManager().getState(GameManager.class);
         gm.getUtilityManager().getMaterialManager().makeUnshaded(player);
     }
@@ -46,6 +47,7 @@ public class PlayerManager {
     
     public void update(float tpf) {
         player.getTopDownControl().update(tpf);
+        player.getAttackControl().update(tpf);
     } 
     
 }

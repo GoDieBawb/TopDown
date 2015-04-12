@@ -42,12 +42,13 @@ public class TopDownControl extends InteractionControl{
         
         walkDirection.set(0, 0, 0);
         
-        int xMove = 0;
-        int zMove = 0;
+        float xMove = 0;
+        float zMove = 0;
         
         if (up) {
             zMove = 5;
         }
+        
         else if (down) {
             zMove = -5;
         }
@@ -55,9 +56,9 @@ public class TopDownControl extends InteractionControl{
         if (left) {
             xMove = 5;
         }
+        
         else if (right) {
             xMove = -5;
-        
         } 
         
         if(up||down||left||right) {
@@ -66,16 +67,25 @@ public class TopDownControl extends InteractionControl{
             
         } else {
           player.idle();
-          }
-        
-       walkDirection.addLocal(xMove, 0, zMove); 
-        
-       player.getPhys().setWalkDirection(walkDirection.mult(1));
+        }
+       
+        walkDirection.addLocal(xMove, 0, zMove); 
+       
+        float speedMult = 1;
+       
+        if(player.isAttacking())
+            speedMult = .75f;
+       
+       
+        player.getPhys().setWalkDirection(walkDirection.mult(speedMult));
        
     }
   
     private void rotate(){
     
+        if (player.isAttacking())
+            return;
+        
         if (up) {
       
             if (left) {
@@ -116,7 +126,7 @@ public class TopDownControl extends InteractionControl{
       player.getPhys().setViewDirection(new Vector3f(-999,0,0));
       }
         
-    }    
+    }
     
     @Override
     public void update(float tpf) {

@@ -25,8 +25,9 @@ public class TopDownCameraManager {
     }
     
     private void topDownCamMove(){
-        app.getCamera().setLocation(player.getWorldTranslation().addLocal(0,10,0));
-        app.getCamera().lookAt(player.getWorldTranslation().multLocal(1,0,1), new Vector3f(0,1,0));
+        Vector3f playerSpot = player.getWorldTranslation().clone();
+        app.getCamera().setLocation(playerSpot.addLocal(0,5,-6));
+        app.getCamera().lookAt(playerSpot.multLocal(1,0f,1).addLocal(0,0,6), new Vector3f(0,1,0));
     }      
     
     public void update(float tpf) {

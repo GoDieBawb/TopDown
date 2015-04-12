@@ -7,6 +7,7 @@ package mygame.entity.player;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.scene.Node;
 import java.util.HashMap;
 import mygame.GameManager;
 import mygame.entity.Humanoid;
@@ -29,16 +30,44 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
     private BetterCharacterControl   phys;
     private HashMap<Object, Object>  inventory;
     private TopDownControl           topDownControl;
+    private Node                     gun;
+    private boolean                  attacking;
+    private AttackControl            attackControl;
+    private Long                     deathTime;
     
     public Player(AppStateManager stateManager) {
         this.stateManager = stateManager;
-        setModel(null, stateManager);
+        setModel("", stateManager);
         createAnimControl();
         createHud();
         setName("Player");
         createInventory();
+        equipGun();
     }
     
+    public void createAttackControl() {
+        attackControl = new AttackControl(stateManager);
+    }
+    
+    public AttackControl getAttackControl() {
+        return attackControl;
+    }
+    
+    public void setIsAttacking(boolean newVal) {
+        attacking = newVal;
+    }
+    
+    public boolean isAttacking() {
+        return attacking;
+    }
+    
+    private void equipGun() {
+        gun = (Node) stateManager.getApplication().getAssetManager().loadModel("Models/Sten/Sten.j3o");
+        attachChild(gun);
+        gun.scale(.075f);
+        gun.setLocalTranslation(0, 1f, .25f);
+        gun.rotate(89.5f,-89.5f,0);
+    }
     
     public void createControl() {
         topDownControl = new TopDownControl(stateManager);
@@ -75,11 +104,16 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
     }
 
     public void endLife() {
+        setDeathTime();
         isDead = true;
     }
     
     public boolean isDead() {
         return isDead;
+    }
+    
+    public void setDeathTime() {
+        deathTime = System.currentTimeMillis();
     }
     
     private void createInventory() {

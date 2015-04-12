@@ -19,4 +19,9 @@ public interface Vulnerable {
     public int  getHealth();
     
     public void endLife();
+    
+    public boolean isDead();
+    
+    public void setDeathTime();
+    
 }

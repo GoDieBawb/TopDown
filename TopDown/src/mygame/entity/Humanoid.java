@@ -6,7 +6,9 @@ package mygame.entity;
 
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
+import com.jme3.animation.LoopMode;
 import com.jme3.app.state.AppStateManager;
+import mygame.entity.player.Player;
 
 /**
  *
@@ -18,13 +20,13 @@ public abstract class Humanoid extends Entity implements Living {
     private AnimChannel     armChannel, legChannel;
     
     public void createAnimControl() {
-        animControl = getModel().getChild("Person").getControl(AnimControl.class);
+        animControl = getModel().getChild("Body").getControl(AnimControl.class);
         armChannel  = animControl.createChannel();
         legChannel  = animControl.createChannel();
-        armChannel.addFromRootBone("TopSpine");
+        armChannel.addFromRootBone("TopSPine");
         legChannel.addFromRootBone("BottomSpine");
-        armChannel.setAnim("ArmIdle");
-        legChannel.setAnim("LegsIdle");
+        armChannel.setAnim("StillArms");
+        legChannel.setAnim("StillLegs");
     }
     
     @Override
@@ -36,35 +38,63 @@ public abstract class Humanoid extends Entity implements Living {
     public void setModel(String path, AppStateManager stateManager) {
         path = "Models/Person/Person.j3o";
         super.setModel(path, stateManager);
-        getModel().setLocalScale(.2f);
+        getModel().setLocalScale(.1f);
         getModel().setLocalTranslation(0,.4f,0);
     }
     
     public void run() {
   
-        if (!armChannel.getAnimationName().equals("ArmRun")) {
-            armChannel.setAnim("ArmRun");
+        if (this instanceof Player) {
+        
+            if (!armChannel.getAnimationName().equals("RifleAim")) {
+                armChannel.setAnim("RifleAim");
+                armChannel.setLoopMode(LoopMode.DontLoop);
+            }
+            
+        }        
+        
+        else if (!armChannel.getAnimationName().equals("UnarmedRun")) {
+            armChannel.setAnim("UnarmedRun");
         }
       
-        if (!legChannel.getAnimationName().equals("LegRun")) {
-            legChannel.setAnim("LegRun");
+        if (!legChannel.getAnimationName().equals("RunAction")) {
+            legChannel.setAnim("RunAction");
         }    
       
     }
   
     public void idle() {
   
-        if (!armChannel.getAnimationName().equals("ArmIdle")) {
-            armChannel.setAnim("ArmIdle");
+        if (this instanceof Player) {
+        
+            if (!armChannel.getAnimationName().equals("RifleAim")) {
+                armChannel.setAnim("RifleAim");
+                armChannel.setLoopMode(LoopMode.DontLoop);
+            }
+            
+        }
+        
+        else if (!armChannel.getAnimationName().equals("StillArms")) {
+            armChannel.setAnim("StillArms");
         }
       
-        if (!legChannel.getAnimationName().equals("LegsIdle")) {
-            legChannel.setAnim("LegsIdle");
+        if (!legChannel.getAnimationName().equals("StillLegs")) {
+            legChannel.setAnim("StillLegs");
         }
         
     }
     
     public void die() {
+        
+        if (!armChannel.getAnimationName().equals("Die")) {
+            armChannel.setAnim("Die");
+            armChannel.setLoopMode(LoopMode.DontLoop);
+        }
+      
+        if (!legChannel.getAnimationName().equals("Die")) {
+            legChannel.setAnim("Die");
+            legChannel.setLoopMode(LoopMode.DontLoop);
+        }   
     
     }
     

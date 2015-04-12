@@ -14,13 +14,16 @@ import com.jme3.scene.Node;
 public class Entity extends Node{
     
     private Node    model;
-    private boolean isHid;
-    private boolean inProx;
     
     public void setModel(String path, AppStateManager stateManager) {
         model = (Node) stateManager.getApplication().getAssetManager().loadModel(path);
         attachChild(model);
     }
+    
+    public void setModel(Node model, AppStateManager stateManager) {
+        this.model = model;
+        attachChild(model);
+    }    
     
     public void setModel(Node model) {
         this.model = model;
@@ -31,7 +34,9 @@ public class Entity extends Node{
     }
     
     public void act() {
+    }
     
+    public void act(float tpf) {
     }
     
 }

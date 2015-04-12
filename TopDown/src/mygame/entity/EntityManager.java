@@ -5,11 +5,10 @@
 package mygame.entity;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
-import mygame.GameManager;
-import mygame.entity.monster.Zombie;
+import mygame.entity.monster.Monster;
+import mygame.entity.monster.MonsterManager;
 import mygame.scene.SceneManager;
 
 /**
@@ -21,24 +20,12 @@ public class EntityManager {
     private Node              entityNode;
     private SimpleApplication app;
     private ArrayList<Entity> sceneEntities;
+    private MonsterManager    monsterManager;
     
     public EntityManager(SimpleApplication app) {
         this.app = app;
-    }
-    
-    public void createZombie() {
-        Zombie zombie;
-        zombie = new Zombie(app.getStateManager());
-        zombie.createPhys();
-        zombie.createFinderControl(app.getStateManager());
-        entityNode.attachChild(zombie);
-        
-        app.getStateManager().getState(GameManager.class).getUtilityManager()
-                .getPhysicsManager().getPhysics().getPhysicsSpace()
-                    .add(zombie.getPhys());
-        
-        zombie.getPhys().warp(new Vector3f(5,1,5));
-    }        
+        monsterManager = new MonsterManager(app);
+    }  
     
     public void initEntities(SceneManager sceneManager) {
 
@@ -74,6 +61,7 @@ public class EntityManager {
         }
         
         scene.attachChild(entityNode);
+        monsterManager.setEntityNode(entityNode);
         
     }
     
@@ -107,6 +95,8 @@ public class EntityManager {
     
     public void update(float tpf) {
         
+        int monsterCount = 0;
+        
         for (int i = 0; i < entityNode.getQuantity(); i++) {
         
             if (!(entityNode.getChild(i) instanceof Entity)) {
@@ -115,9 +105,27 @@ public class EntityManager {
             }
             
             Entity currentEntity = (Entity) entityNode.getChild(i);
-                
-            currentEntity.act();
             
+            if (currentEntity instanceof Vulnerable) {
+                
+                Vulnerable v = (Vulnerable) currentEntity;
+                
+                if (v.getHealth() <= 0 && !v.isDead())
+                    v.endLife();
+                
+            }
+            
+            if (currentEntity instanceof Monster) {
+                monsterCount++;
+            }
+            
+            currentEntity.act();
+            currentEntity.act(tpf);
+            
+        }
+        
+        if (monsterCount < 4) {
+            monsterManager.createZombie();
         }
         
     }

@@ -43,10 +43,6 @@ public class GameManager extends AbstractAppState {
     private void startGame() {
         sceneManager.setScene("Map");
         playerManager.placePlayer();
-        entityManager.createZombie();
-        entityManager.createZombie();
-        entityManager.createZombie();
-        entityManager.createZombie();
     }
     
     private void createEntityManager() {
