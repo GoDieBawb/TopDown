@@ -12,6 +12,7 @@ import mygame.GameManager;
 import mygame.entity.Humanoid;
 import mygame.entity.Vulnerable;
 import mygame.entity.PhysicalEntity;
+import mygame.util.topdown.TopDownControl;
 
 /**
  *
@@ -19,14 +20,15 @@ import mygame.entity.PhysicalEntity;
  */
 public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
     
-    private AppStateManager     stateManager;
-    private boolean             isDead;
-    private int                 maxHealth;
-    private int                 currentHealth;
-    private Hud                 hud;
-    private boolean             hasChecked;
-    private BetterCharacterControl phys;
+    private AppStateManager          stateManager;
+    private boolean                  isDead;
+    private int                      maxHealth;
+    private int                      currentHealth;
+    private Hud                      hud;
+    private boolean                  hasChecked;
+    private BetterCharacterControl   phys;
     private HashMap<Object, Object>  inventory;
+    private TopDownControl           topDownControl;
     
     public Player(AppStateManager stateManager) {
         this.stateManager = stateManager;
@@ -35,6 +37,15 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         createHud();
         setName("Player");
         createInventory();
+    }
+    
+    
+    public void createControl() {
+        topDownControl = new TopDownControl(stateManager);
+    }    
+    
+    public TopDownControl getTopDownControl() {
+        return topDownControl;
     }
     
     @Override

@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mygame.entity.player;
 
-import mygame.entity.player.Player;
 import com.jme3.app.SimpleApplication;
+import com.jme3.math.Vector3f;
+import mygame.GameManager;
 
 /**
  *
@@ -25,8 +22,30 @@ public class PlayerManager {
         player = new Player(app.getStateManager());
     }
     
+    public void initPlayer() {
+        player.createPhys();
+        player.createControl();
+        GameManager gm = app.getStateManager().getState(GameManager.class);
+        gm.getUtilityManager().getMaterialManager().makeUnshaded(player);
+    }
+    
     public Player getPlayer() {
         return player;
     }
+    
+    public void placePlayer() {
+        
+        app.getRootNode().attachChild(player);
+        GameManager gm = app.getStateManager().getState(GameManager.class);
+        gm.getSceneManager().getScene().attachChild(player);
+        gm.getUtilityManager().getPhysicsManager().getPhysics().getPhysicsSpace().add(player.getPhys());
+        gm.getUtilityManager().getPhysicsManager().getPhysics().getPhysicsSpace().setGravity(new Vector3f(0,-50,0));
+        player.getPhys().warp(new Vector3f(0,5,0));
+        
+    }
+    
+    public void update(float tpf) {
+        player.getTopDownControl().update(tpf);
+    } 
     
 }

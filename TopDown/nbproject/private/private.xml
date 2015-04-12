@@ -1,20 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/Main.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/InteractionManager.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/entity/player/PlayerManager.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/GameManager.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/entity/ai/Finder.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/entity/monster/Monster.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/entity/Humanoid.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/entity/Animated.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/entity/Living.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/entity/monster/Zombie.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/entity/player/Player.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/entity/EntityManager.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/entity/player/Hud.java</file>
-        <file>file:/C:/Users/Bawb/Documents/TopDown/src/mygame/scene/SceneManager.java</file>
-    </open-files>
 </project-private>
