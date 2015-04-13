@@ -7,8 +7,8 @@ package mygame.entity;
 import com.jme3.app.SimpleApplication;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
-import mygame.entity.monster.Monster;
 import mygame.entity.monster.MonsterManager;
+import mygame.entity.monster.Spawner;
 import mygame.scene.SceneManager;
 
 /**
@@ -19,13 +19,17 @@ public class EntityManager {
     
     private Node              entityNode;
     private SimpleApplication app;
-    private ArrayList<Entity> sceneEntities;
     private MonsterManager    monsterManager;
+    private ArrayList<Entity> sceneEntities;
     
     public EntityManager(SimpleApplication app) {
         this.app = app;
         monsterManager = new MonsterManager(app);
     }  
+    
+    public MonsterManager getMonsterManager() {
+        return monsterManager;
+    }
     
     public void initEntities(SceneManager sceneManager) {
 
@@ -47,6 +51,10 @@ public class EntityManager {
                 Node   model  = (Node) entityNode.getChild(i);
                        
                 if (model.getUserData("Type") != null) {
+                    
+                    if(model.getUserData("Type").equals("Spawner")) {
+                        entity = new Spawner(this);
+                    }
                     
                 }
                 
@@ -95,8 +103,6 @@ public class EntityManager {
     
     public void update(float tpf) {
         
-        int monsterCount = 0;
-        
         for (int i = 0; i < entityNode.getQuantity(); i++) {
         
             if (!(entityNode.getChild(i) instanceof Entity)) {
@@ -115,19 +121,11 @@ public class EntityManager {
                 
             }
             
-            if (currentEntity instanceof Monster) {
-                monsterCount++;
-            }
-            
             currentEntity.act();
             currentEntity.act(tpf);
             
         }
-        
-        if (monsterCount < 4) {
-            monsterManager.createZombie();
-        }
-        
+ 
     }
     
 }

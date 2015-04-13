@@ -65,7 +65,7 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         gun = (Node) stateManager.getApplication().getAssetManager().loadModel("Models/Sten/Sten.j3o");
         attachChild(gun);
         gun.scale(.075f);
-        gun.setLocalTranslation(0, 1f, .25f);
+        gun.setLocalTranslation(0, .6f, .25f);
         gun.rotate(89.5f,-89.5f,0);
     }
     
@@ -79,7 +79,7 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
     
     @Override
     public void createPhys() {
-        phys = new BetterCharacterControl(.35f, 1.1f, 100);
+        phys = new BetterCharacterControl(.25f, 1f, 100);
         addControl(phys);
     }
     

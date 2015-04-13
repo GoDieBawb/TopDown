@@ -6,6 +6,7 @@ package mygame.entity.monster;
 
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import mygame.entity.ai.Finder;
 import mygame.entity.ai.FinderControl;
@@ -24,8 +25,8 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
     private FinderControl          fc;
     private AppStateManager        stateManager;
     private int                    moveSpeed;
-    private int                    maxHealth = 25;
-    private int                    currentHealth = 25;
+    private int                    maxHealth = 15;
+    private int                    currentHealth = 15;
     private boolean                isDead;
     private Long                   deathTime;
     
@@ -38,7 +39,8 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
     
     @Override
     public void createPhys() {
-        phys = new BetterCharacterControl(.35f, 1.1f, 150);
+        phys = new BetterCharacterControl(.25f, 1f, 150);
+        phys.setGravity(new Vector3f(0,-50,0));
         addControl(phys);
     }
 
@@ -113,11 +115,15 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
     
     @Override
     public void attack() {
-    
+        punch();
     }
 
     @Override
     public void act() {
+        
+        if (getWorldTranslation().y < -1) {
+            getPhys().warp(getWorldTranslation().addLocal(0,1,0));
+        }
         
         if (isDead) {
             
@@ -135,11 +141,11 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
             attack();
         }
         
-        else if (dist < 50 && !getFinderControl().isFinding()) {
+        else if (dist < 80 && !getFinderControl().isFinding()) {
             getFinderControl().findTarget(player);
         }
         
-        else if (dist > 50) {
+        else if (dist > 80) {
             getFinderControl().stopFinding();
         }
         

@@ -7,6 +7,7 @@ package mygame.entity.monster;
 import com.jme3.app.SimpleApplication;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import java.util.Random;
 import mygame.GameManager;
 
 /**
@@ -26,7 +27,8 @@ public class MonsterManager {
         this.entityNode = entityNode;
     }
     
-    public void createZombie() {
+    public Zombie createZombie() {
+        
         Zombie zombie;
         zombie = new Zombie(app.getStateManager());
         zombie.createPhys();
@@ -37,7 +39,8 @@ public class MonsterManager {
                 .getPhysicsManager().getPhysics().getPhysicsSpace()
                     .add(zombie.getPhys());
         
-        zombie.getPhys().warp(new Vector3f(5,1,5));
-    }    
+        return zombie;
+        
+    }
     
 }

@@ -39,7 +39,7 @@ public abstract class Humanoid extends Entity implements Living {
         path = "Models/Person/Person.j3o";
         super.setModel(path, stateManager);
         getModel().setLocalScale(.1f);
-        getModel().setLocalTranslation(0,.4f,0);
+        getModel().setLocalTranslation(0,0,0);
     }
     
     public void run() {
@@ -82,6 +82,13 @@ public abstract class Humanoid extends Entity implements Living {
             legChannel.setAnim("StillLegs");
         }
         
+    }
+    
+    public void punch() {
+        if (!armChannel.getAnimationName().equals("Punch")) {
+            armChannel.setAnim("Punch");
+        }
+          
     }
     
     public void die() {

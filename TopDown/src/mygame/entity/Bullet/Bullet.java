@@ -7,6 +7,7 @@ package mygame.entity.Bullet;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -29,14 +30,15 @@ public class Bullet extends Entity {
         this.moveDir   = moveDir.clone();
         this.startSpot = startSpot.clone();
         entityNode     = stateManager.getState(GameManager.class).getEntityManager().getEntityNode();
-        setLocalTranslation(startSpot.addLocal(0,1,0));
+        setLocalTranslation(startSpot.addLocal(0,.6f,0).add(moveDir.clone().normalize().mult(.6f)));
         makeModel(stateManager);
     }
     
     private void makeModel(AppStateManager stateManager) {
         Box b       = new Box(.025f,.025f,.025f);
         Geometry g  = new Geometry("Box", b);
-        Material m  = stateManager.getApplication().getAssetManager().loadMaterial("Common/Materials/RedColor.j3m");
+        Material m  = new Material(stateManager.getApplication().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        m.setColor("Color", ColorRGBA.Black);
         Node bullet = new Node("Bullet");
         g.setMaterial(m);
         bullet.attachChild(g);
@@ -67,6 +69,7 @@ public class Bullet extends Entity {
             
                 Vulnerable vul = (Vulnerable) hitEntity;
                 vul.setHealth(vul.getHealth()-3);
+                removeFromParent();
                 
             }
             

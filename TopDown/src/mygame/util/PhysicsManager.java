@@ -21,6 +21,7 @@ public class PhysicsManager {
     public PhysicsManager(AppStateManager stateManager) {
         physics = new BulletAppState();
         stateManager.attach(physics);
+        //physics.setDebugEnabled(true);
     }
     
     public void rePhys(AppStateManager stateManager, Node node) {
