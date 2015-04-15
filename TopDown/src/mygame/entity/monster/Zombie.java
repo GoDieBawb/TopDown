@@ -29,9 +29,11 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
     private int                    currentHealth = 15;
     private boolean                isDead;
     private Long                   deathTime;
+    private Long                   lastAttack;
     
     public Zombie(AppStateManager stateManager) {
         this.stateManager = stateManager;
+        lastAttack        = System.currentTimeMillis();
         setModel("", stateManager);
         createAnimControl();
         getModel().setMaterial(stateManager.getApplication().getAssetManager().loadMaterial("Materials/Zombie.j3m"));
@@ -115,7 +117,21 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
     
     @Override
     public void attack() {
+        
         punch();
+        
+        if (System.currentTimeMillis() / 1000 - lastAttack / 1000 > 3) {
+            
+            Player player = stateManager.getState(GameManager.class).getPlayerManager().getPlayer();
+            player.setHealth(player.getHealth() - 3);
+            lastAttack = System.currentTimeMillis();
+            
+            if (player.getHealth() < 0) {
+                player.setHealth(0);
+            }
+            
+        }
+
     }
 
     @Override
@@ -137,7 +153,7 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
         Player player = stateManager.getState(GameManager.class).getPlayerManager().getPlayer();
         float  dist   = player.getWorldTranslation().distance(getWorldTranslation());
         
-        if (getFinderControl().atGoal()) {
+        if (getFinderControl().atGoal() && dist < 1) {
             attack();
         }
         

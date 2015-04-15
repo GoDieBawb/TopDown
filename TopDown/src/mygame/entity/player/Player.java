@@ -39,7 +39,6 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         this.stateManager = stateManager;
         setModel("", stateManager);
         createAnimControl();
-        createHud();
         setName("Player");
         createInventory();
         equipGun();
@@ -127,8 +126,8 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
     public void dropItem() {
     }
     
-    private void createHud() {
-        hud = new Hud(stateManager);
+    public void createHud() {
+        hud = new Hud(stateManager, this);
     }
     
     public Hud getHud() {

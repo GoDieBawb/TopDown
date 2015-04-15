@@ -15,6 +15,7 @@ public class UtilityManager {
     private InteractionManager interactionManager;
     private PhysicsManager     physicsManager;
     private MaterialManager    materialManager;
+    private GuiManager         guiManager;
     private SimpleApplication  app;
     
     public UtilityManager(SimpleApplication app) {
@@ -22,6 +23,7 @@ public class UtilityManager {
         createInteractionManager();
         createPhysicsManager();
         createMaterialManager();
+        createGuiManager();
     }
     
     private void createInteractionManager() {
@@ -46,6 +48,14 @@ public class UtilityManager {
     
     public MaterialManager getMaterialManager() {
         return materialManager;
+    }
+    
+    private void createGuiManager() {
+        guiManager = new GuiManager(app);
+    }
+    
+    public GuiManager getGuiManager() {
+        return guiManager;
     }
     
 }
