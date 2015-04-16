@@ -76,6 +76,9 @@ public class TopDownControl extends InteractionControl{
         if(player.isAttacking())
             speedMult = .75f;
        
+        
+        if(player.hasSpeed())
+            speedMult *= 2;
        
         player.getPhys().setWalkDirection(walkDirection.mult(speedMult));
        

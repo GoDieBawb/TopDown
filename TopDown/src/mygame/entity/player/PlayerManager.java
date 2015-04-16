@@ -49,6 +49,15 @@ public class PlayerManager {
     }
     
     public void update(float tpf) {
+        
+        if (player.hasSpeed()) 
+            if (System.currentTimeMillis()/1000  - player.getSpeedBonusStartTime() / 1000 > 5)
+                player.removeSpeedBonus();
+                
+        if (player.hasRate()) 
+            if (System.currentTimeMillis()/1000  - player.getRateBonusStartTime() / 1000 > 5)
+                player.removeRateBonus();        
+        
         player.getTopDownControl().update(tpf);
         player.getAttackControl().update(tpf);
         player.getHud().update(tpf);

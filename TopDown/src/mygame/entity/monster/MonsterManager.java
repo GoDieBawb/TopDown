@@ -4,10 +4,8 @@
  */
 package mygame.entity.monster;
 
-import com.jme3.app.SimpleApplication;
-import com.jme3.math.Vector3f;
+import com.jme3.app.SimpleApplication;;
 import com.jme3.scene.Node;
-import java.util.Random;
 import mygame.GameManager;
 
 /**

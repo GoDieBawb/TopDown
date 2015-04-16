@@ -8,12 +8,17 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
+import java.util.Random;
 import mygame.entity.ai.Finder;
 import mygame.entity.ai.FinderControl;
 import mygame.GameManager;
 import mygame.entity.Humanoid;
 import mygame.entity.PhysicalEntity;
 import mygame.entity.player.Player;
+import mygame.entity.powerup.FireRate;
+import mygame.entity.powerup.Health;
+import mygame.entity.powerup.PowerUp;
+import mygame.entity.powerup.Speed;
 
 /**
  *
@@ -105,6 +110,45 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
         setDeathTime();
         die();
         isDead = true;
+        
+        if (randInt(1,5) == 5) {
+            dropItem();
+        }
+        
+    }    
+    
+    private void dropItem() {
+        
+        int item = randInt(1,3);
+        
+        PowerUp pw = new PowerUp(stateManager);
+        
+        switch(item) {
+            
+            case 1:
+                pw = (PowerUp) new FireRate(stateManager);
+                break;
+                
+            case 2:
+                pw = (PowerUp) new Speed(stateManager);
+                break;
+                
+            case 3:
+                pw = (PowerUp) new Health(stateManager);
+                break;
+                
+        }
+    
+        pw.setLocalTranslation(this.getWorldTranslation().add(0,1,0));
+        
+    }
+    
+    private int randInt(int min, int max) {
+        
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+        return randomNum;
+        
     }    
     
     public boolean isDead() {

@@ -34,6 +34,9 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
     private boolean                  attacking;
     private AttackControl            attackControl;
     private Long                     deathTime;
+    private Long                     speedBonusStartTime;
+    private Long                     rateBonusStartTime;
+    private boolean                  hasSpeed, hasRate;
     
     public Player(AppStateManager stateManager) {
         this.stateManager = stateManager;
@@ -147,6 +150,40 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         isDead = false;
     }
     
+    public void giveSpeedBonus() {
+        speedBonusStartTime = System.currentTimeMillis();
+        hasSpeed            = true;
+    }
+    
+    public void removeSpeedBonus() {
+        hasSpeed = false;
+    }
+    
+    public Long getSpeedBonusStartTime() {
+        return speedBonusStartTime;
+    }
+    
+    public boolean hasSpeed() {
+        return hasSpeed;
+    }
+    
+    public void giveRateBonus() {
+        rateBonusStartTime = System.currentTimeMillis();
+        hasRate            = true;
+    }
+    
+    public void removeRateBonus() {
+        hasRate = false;
+    }
+    
+    public Long getRateBonusStartTime() {
+        return rateBonusStartTime;
+    }    
+    
+    public boolean hasRate() {
+        return hasRate;
+    }
+    
     @Override
     public void die() {
         super.die();
@@ -155,6 +192,10 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         inventory = new HashMap();
         detachAllChildren();
         isDead = true;
+    }
+    
+    public Long getDeathTime() {
+        return deathTime;
     }
     
 }

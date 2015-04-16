@@ -84,7 +84,12 @@ public class AttackControl extends InteractionControl{
     
     private void attack() {
         
-        if (System.currentTimeMillis()/100 - lastFired/100  > 1) {
+        float attackRate = 1;
+        
+        if (player.hasRate())
+            attackRate = 2;
+        
+        if (System.currentTimeMillis()/100 - lastFired/100  > 1/attackRate) {
             new Bullet(player.getPhys().getViewDirection(), player.getWorldTranslation(), app.getStateManager());
             lastFired = System.currentTimeMillis();
         }
