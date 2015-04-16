@@ -50,6 +50,12 @@ public class PlayerManager {
     
     public void update(float tpf) {
         
+        if (player.getHealth() <= 0)
+            player.die();
+        
+        if(player.isDead())
+            return;
+        
         if (player.hasSpeed()) 
             if (System.currentTimeMillis()/1000  - player.getSpeedBonusStartTime() / 1000 > 5)
                 player.removeSpeedBonus();

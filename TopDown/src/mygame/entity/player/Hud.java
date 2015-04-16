@@ -4,7 +4,10 @@
  */
 package mygame.entity.player;
 
+import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import mygame.GameManager;
@@ -18,14 +21,16 @@ import tonegod.gui.core.Screen;
  */
 public class Hud {
     
-    private Indicator healthDisplay;
-    private Screen    screen;
-    private Player    player;
+    private Indicator  healthDisplay;
+    private BitmapText scoreDisplay;
+    private Screen     screen;
+    private Player     player;
     
     public Hud(AppStateManager stateManager, Player player) {
         screen      = stateManager.getState(GameManager.class).getUtilityManager().getGuiManager().getScreen();
         this.player = player;
         createHealthDisplay();
+        createScoreDisplay(stateManager);
     }
     
     private void createHealthDisplay() {
@@ -33,9 +38,7 @@ public class Hud {
         healthDisplay = new Indicator(screen, "Health Display", new Vector2f(screen.getWidth()*.9f, screen.getHeight()/10), Orientation.HORIZONTAL) {
             
             @Override
-            public void onChange(float a, float b) {
-            
-            }
+            public void onChange(float a, float b) {}
         
         };
         
@@ -51,9 +54,24 @@ public class Hud {
         healthDisplay.setCurrentValue(player.getHealth());
     }
     
+    private void createScoreDisplay(AppStateManager stateManager) {
+        
+        BitmapFont font = stateManager.getApplication().getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+        scoreDisplay = new BitmapText(font);
+        scoreDisplay.setText("Score: " + player.getScore());
+        ((SimpleApplication) stateManager.getApplication()).getGuiNode().attachChild(scoreDisplay);
+        scoreDisplay.setLocalTranslation(screen.getWidth() - scoreDisplay.getLineWidth() * 2, screen.getHeight() - scoreDisplay.getLineHeight(), 0);
+        
+    }
+    
+    private void updateScoreDisplay() {
+        scoreDisplay.setText("Score: " + player.getScore());
+    }
+    
     public void update(float tpf) {
         
         updateHealthDisplay();
+        updateScoreDisplay();
         
     }
     

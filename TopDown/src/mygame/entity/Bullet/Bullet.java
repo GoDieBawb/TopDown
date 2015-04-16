@@ -15,6 +15,7 @@ import com.jme3.scene.shape.Box;
 import mygame.GameManager;
 import mygame.entity.Entity;
 import mygame.entity.Vulnerable;
+import mygame.entity.player.Player;
 
 /**
  *
@@ -25,16 +26,18 @@ public class Bullet extends Entity {
     private Vector3f moveDir;
     private Node     entityNode;
     private Vector3f startSpot;
+    private AppStateManager stateManager;
     
     public Bullet(Vector3f moveDir, Vector3f startSpot, AppStateManager stateManager) {
         this.moveDir   = moveDir.clone();
         this.startSpot = startSpot.clone();
         entityNode     = stateManager.getState(GameManager.class).getEntityManager().getEntityNode();
+        this.stateManager = stateManager;
         setLocalTranslation(startSpot.addLocal(0,.6f,0).add(moveDir.clone().normalize().mult(.6f)));
-        makeModel(stateManager);
+        makeModel();
     }
     
-    private void makeModel(AppStateManager stateManager) {
+    private void makeModel() {
         Box b       = new Box(.025f,.025f,.025f);
         Geometry g  = new Geometry("Box", b);
         Material m  = new Material(stateManager.getApplication().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
@@ -70,6 +73,8 @@ public class Bullet extends Entity {
                 Vulnerable vul = (Vulnerable) hitEntity;
                 vul.setHealth(vul.getHealth()-3);
                 removeFromParent();
+                Player player = stateManager.getState(GameManager.class).getPlayerManager().getPlayer();
+                player.setScore(player.getScore()+3);
                 
             }
             

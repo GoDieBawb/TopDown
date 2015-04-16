@@ -4,11 +4,9 @@
  */
 package mygame.entity.player;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.scene.Node;
-import java.util.HashMap;
 import mygame.GameManager;
 import mygame.entity.Humanoid;
 import mygame.entity.Vulnerable;
@@ -28,7 +26,6 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
     private Hud                      hud;
     private boolean                  hasChecked;
     private BetterCharacterControl   phys;
-    private HashMap<Object, Object>  inventory;
     private TopDownControl           topDownControl;
     private Node                     gun;
     private boolean                  attacking;
@@ -37,13 +34,13 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
     private Long                     speedBonusStartTime;
     private Long                     rateBonusStartTime;
     private boolean                  hasSpeed, hasRate;
+    private int                      score;
     
     public Player(AppStateManager stateManager) {
         this.stateManager = stateManager;
         setModel("", stateManager);
         createAnimControl();
         setName("Player");
-        createInventory();
         equipGun();
     }
     
@@ -118,14 +115,6 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         deathTime = System.currentTimeMillis();
     }
     
-    private void createInventory() {
-        inventory = new HashMap();
-    }
-    
-    public HashMap<Object, Object> getInventory() {
-        return inventory;
-    }
-    
     public void dropItem() {
     }
     
@@ -184,13 +173,18 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         return hasRate;
     }
     
+    public void setScore(int score) {
+        this.score = score;
+    }
+    
+    public int getScore() {
+        return score;
+    }
+    
     @Override
     public void die() {
         super.die();
-        ((SimpleApplication) stateManager.getApplication()).getRootNode().detachAllChildren();
-        stateManager.getState(GameManager.class).getSceneManager().removeScene();
-        inventory = new HashMap();
-        detachAllChildren();
+        deathTime = System.currentTimeMillis();
         isDead = true;
     }
     
