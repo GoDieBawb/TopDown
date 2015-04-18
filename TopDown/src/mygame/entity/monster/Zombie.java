@@ -139,7 +139,7 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
                 
         }
     
-        pw.setLocalTranslation(this.getWorldTranslation().add(0,1,0));
+        pw.setLocalTranslation(this.getWorldTranslation().multLocal(1,0,1).add(0,.5f,0));
         
     }
     

@@ -2,6 +2,7 @@ package mygame;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
+import com.jme3.system.AppSettings;
 
 /**
  * test
@@ -11,6 +12,9 @@ public class Main extends SimpleApplication {
 
     public static void main(String[] args) {
         Main app = new Main();
+        AppSettings newSetting = new AppSettings(true);
+        newSetting.setFrameRate(60);
+        app.setSettings(newSetting);
         app.start();
     }
 

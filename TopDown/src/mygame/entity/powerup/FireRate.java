@@ -25,14 +25,9 @@ public class FireRate extends PowerUp {
     
     private void makeModel(AppStateManager stateManager) {
         Node entityNode = stateManager.getState(GameManager.class).getEntityManager().getEntityNode();
-        Box b           = new Box(.25f,.25f,.25f);
-        Geometry g      = new Geometry("Box", b);
-        Material m      = new Material(stateManager.getApplication().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-        Node bullet     = new Node("Bullet");
-        m.setColor("Color", ColorRGBA.Yellow);
-        g.setMaterial(m);
-        bullet.attachChild(g);
-        this.setModel(bullet, stateManager); 
+        Node rateBonus = (Node) stateManager.getApplication().getAssetManager().loadModel("Models/RateBonus.j3o");
+        this.setModel(rateBonus, stateManager); 
+        getModel().scale(.25f);
         entityNode.attachChild(this);
     }        
     

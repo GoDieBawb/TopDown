@@ -42,7 +42,9 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         setModel("", stateManager);
         createAnimControl();
         setName("Player");
+        createGun();
         equipGun();
+        getModel().setMaterial(stateManager.getApplication().getAssetManager().loadMaterial("Materials/Slave.j3m"));
     }
     
     public void createAttackControl() {
@@ -61,12 +63,21 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         return attacking;
     }
     
-    private void equipGun() {
+    private void createGun() {
         gun = (Node) stateManager.getApplication().getAssetManager().loadModel("Models/Sten/Sten.j3o");
         attachChild(gun);
         gun.scale(.075f);
-        gun.setLocalTranslation(0, .6f, .25f);
         gun.rotate(89.5f,-89.5f,0);
+    }
+    
+    private void equipGun() {
+        gun.setLocalTranslation(0, .6f, .25f);
+    }
+    
+    private void dropGun() {
+    
+        gun.setLocalTranslation(0, 0, .25f);
+        
     }
     
     public void createControl() {
@@ -188,6 +199,7 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         currentHealth = maxHealth;
         score         = 0;
         hud.showHud();
+        equipGun();
     }
     
     @Override
@@ -198,6 +210,7 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         phys.setWalkDirection(new Vector3f(0,0,0));
         stateManager.getState(GameManager.class).getMainMenu().showMenu();
         hud.hideHud();
+        dropGun();
     }
     
     public Long getDeathTime() {

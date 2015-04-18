@@ -28,9 +28,9 @@ public class Hud {
     private AppStateManager stateManager;
     
     public Hud(AppStateManager stateManager, Player player) {
-        screen      = stateManager.getState(GameManager.class).getUtilityManager().getGuiManager().getScreen();
+        screen            = stateManager.getState(GameManager.class).getUtilityManager().getGuiManager().getScreen();
         this.stateManager = stateManager;
-        this.player = player;
+        this.player       = player;
         createHealthDisplay();
         createScoreDisplay();
     }
@@ -59,7 +59,7 @@ public class Hud {
     private void createScoreDisplay() {
         
         BitmapFont font = stateManager.getApplication().getAssetManager().loadFont("Interface/Fonts/Default.fnt");
-        scoreDisplay = new BitmapText(font);
+        scoreDisplay    = new BitmapText(font);
         scoreDisplay.setText("Score: " + player.getScore());
         ((SimpleApplication) stateManager.getApplication()).getGuiNode().attachChild(scoreDisplay);
         scoreDisplay.setLocalTranslation(screen.getWidth() - scoreDisplay.getLineWidth() * 2, screen.getHeight() - scoreDisplay.getLineHeight(), 0);
