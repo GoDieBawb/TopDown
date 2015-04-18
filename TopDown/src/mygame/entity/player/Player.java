@@ -6,6 +6,7 @@ package mygame.entity.player;
 
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import mygame.GameManager;
 import mygame.entity.Humanoid;
@@ -120,6 +121,7 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
     
     public void createHud() {
         hud = new Hud(stateManager, this);
+        hud.hideHud();
     }
     
     public Hud getHud() {
@@ -181,11 +183,21 @@ public class Player extends Humanoid implements PhysicalEntity, Vulnerable {
         return score;
     }
     
+    public void revive() {
+        isDead        = false;
+        currentHealth = maxHealth;
+        score         = 0;
+        hud.showHud();
+    }
+    
     @Override
     public void die() {
         super.die();
         deathTime = System.currentTimeMillis();
         isDead = true;
+        phys.setWalkDirection(new Vector3f(0,0,0));
+        stateManager.getState(GameManager.class).getMainMenu().showMenu();
+        hud.hideHud();
     }
     
     public Long getDeathTime() {

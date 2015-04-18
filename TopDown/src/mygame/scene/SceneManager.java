@@ -24,6 +24,8 @@ public class SceneManager {
     
     public void setScene(String scenePath) {
         
+        removeScene();
+        
         GameManager gm       = app.getStateManager().getState(GameManager.class);
         String realPath      = "Scenes/" + scenePath + ".j3o";
                scene         = (Node) app.getAssetManager().loadModel(realPath);
@@ -38,7 +40,7 @@ public class SceneManager {
     }
     
     public void removeScene() {
-    
+        app.getRootNode().detachAllChildren();
     }
     
     public Node getScene() {

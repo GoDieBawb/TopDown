@@ -71,6 +71,10 @@ public class Bullet extends Entity {
             if (hitEntity instanceof Vulnerable) {
             
                 Vulnerable vul = (Vulnerable) hitEntity;
+                
+                if(vul.isDead())
+                    return;
+                
                 vul.setHealth(vul.getHealth()-3);
                 removeFromParent();
                 Player player = stateManager.getState(GameManager.class).getPlayerManager().getPlayer();

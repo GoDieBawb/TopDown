@@ -52,10 +52,7 @@ public class PlayerManager {
         
         if (player.getHealth() <= 0)
             player.die();
-        
-        if(player.isDead())
-            return;
-        
+                
         if (player.hasSpeed()) 
             if (System.currentTimeMillis()/1000  - player.getSpeedBonusStartTime() / 1000 > 5)
                 player.removeSpeedBonus();
@@ -64,9 +61,15 @@ public class PlayerManager {
             if (System.currentTimeMillis()/1000  - player.getRateBonusStartTime() / 1000 > 5)
                 player.removeRateBonus();        
         
+        
+        player.getHud().update(tpf);
+        
+        if(player.isDead())
+            return;
+        
         player.getTopDownControl().update(tpf);
         player.getAttackControl().update(tpf);
-        player.getHud().update(tpf);
+        
     } 
     
 }

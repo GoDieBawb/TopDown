@@ -168,7 +168,7 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
             
             Player player = stateManager.getState(GameManager.class).getPlayerManager().getPlayer();
             player.setHealth(player.getHealth() - 3);
-            lastAttack = System.currentTimeMillis();
+            lastAttack    = System.currentTimeMillis();
             
             if (player.getHealth() < 0) {
                 player.setHealth(0);

@@ -8,6 +8,7 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import mygame.Menu.MainMenu;
 import mygame.scene.SceneManager;
 import mygame.entity.EntityManager;
 import mygame.entity.player.PlayerManager;
@@ -23,6 +24,7 @@ public class GameManager extends AbstractAppState {
     private PlayerManager     playerManager;
     private EntityManager     entityManager;
     private UtilityManager    utilityManager;
+    private MainMenu          mainMenu;
     private SimpleApplication app;
     
     public GameManager(SimpleApplication app) {
@@ -36,13 +38,23 @@ public class GameManager extends AbstractAppState {
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
+        createMainMenu();
         playerManager.initPlayer();
-        startGame();
+        mainMenu.showMenu();
     } 
     
-    private void startGame() {
+    private void createMainMenu() {
+        mainMenu = new MainMenu(app);
+    }
+    
+    public MainMenu getMainMenu() {
+        return mainMenu;
+    }
+    
+    public void startGame() {
         sceneManager.setScene("Map");
         playerManager.placePlayer();
+        playerManager.getPlayer().revive();
     }
     
     private void createEntityManager() {
@@ -79,8 +91,16 @@ public class GameManager extends AbstractAppState {
     
     @Override
     public void update(float tpf) {
-        playerManager.update(tpf);
-        entityManager.update(tpf);
+        
+        if (mainMenu.isActive()) {
+            mainMenu.update();
+        }
+        
+        else {
+            playerManager.update(tpf);
+            entityManager.update(tpf);
+        }
+        
     }
     
 }

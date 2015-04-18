@@ -25,12 +25,14 @@ public class Hud {
     private BitmapText scoreDisplay;
     private Screen     screen;
     private Player     player;
+    private AppStateManager stateManager;
     
     public Hud(AppStateManager stateManager, Player player) {
         screen      = stateManager.getState(GameManager.class).getUtilityManager().getGuiManager().getScreen();
+        this.stateManager = stateManager;
         this.player = player;
         createHealthDisplay();
-        createScoreDisplay(stateManager);
+        createScoreDisplay();
     }
     
     private void createHealthDisplay() {
@@ -54,7 +56,7 @@ public class Hud {
         healthDisplay.setCurrentValue(player.getHealth());
     }
     
-    private void createScoreDisplay(AppStateManager stateManager) {
+    private void createScoreDisplay() {
         
         BitmapFont font = stateManager.getApplication().getAssetManager().loadFont("Interface/Fonts/Default.fnt");
         scoreDisplay = new BitmapText(font);
@@ -66,6 +68,16 @@ public class Hud {
     
     private void updateScoreDisplay() {
         scoreDisplay.setText("Score: " + player.getScore());
+    }
+    
+    public void showHud() {
+        healthDisplay.show();
+        ((SimpleApplication) stateManager.getApplication()).getGuiNode().attachChild(scoreDisplay);   
+    }
+    
+    public void hideHud() {
+        healthDisplay.hide();
+        scoreDisplay.removeFromParent();
     }
     
     public void update(float tpf) {
