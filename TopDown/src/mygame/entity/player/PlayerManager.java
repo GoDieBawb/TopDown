@@ -44,7 +44,7 @@ public class PlayerManager {
         gm.getSceneManager().getScene().attachChild(player);
         gm.getUtilityManager().getPhysicsManager().getPhysics().getPhysicsSpace().add(player.getPhys());
         gm.getUtilityManager().getPhysicsManager().getPhysics().getPhysicsSpace().setGravity(new Vector3f(0,-50,0));
-        player.getPhys().warp(new Vector3f(0,5,0));
+        player.getPhys().warp(new Vector3f(0,2,0));
         
     }
     
