@@ -80,7 +80,12 @@ public class TopDownControl extends InteractionControl{
         if(player.hasSpeed())
             speedMult *= 1.5f;
        
-        player.getPhys().setWalkDirection(walkDirection.mult(speedMult));
+        float osMult = 1;
+        
+        if ("Dalvik".equals(System.getProperty("java.vm.name")))
+            osMult = .5f;
+        
+        player.getPhys().setWalkDirection(walkDirection.mult(speedMult).mult(osMult));
        
     }
   

@@ -8,6 +8,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.collision.CollisionResults;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -86,6 +87,39 @@ public class Bullet extends Entity {
         
     }
     
+    private void androidCollisionCheck() {
+        
+        CollisionResults results = new CollisionResults();
+        Ray ray                  = new Ray(this.getWorldTranslation().clone().multLocal(1,0,1).add(0,.35f,0), moveDir);
+        
+        entityNode.collideWith(ray, results);
+        
+        if (results.size() > 0) {
+            
+            Entity hitEntity = findEntity(results.getCollision(0).getGeometry().getParent());
+            
+            if (hitEntity.getWorldTranslation().distance(this.getWorldTranslation()) > 1f) {
+                return;
+            }
+            
+            if (hitEntity instanceof Vulnerable) {
+            
+                Vulnerable vul = (Vulnerable) hitEntity;
+                
+                if(vul.isDead())
+                    return;
+                
+                vul.setHealth(vul.getHealth()-3);
+                removeFromParent();
+                Player player = stateManager.getState(GameManager.class).getPlayerManager().getPlayer();
+                player.setScore(player.getScore()+3);
+                
+            }
+            
+        }
+        
+    }    
+    
     private Entity findEntity(Node node) {
     
         if (node instanceof Entity) {
@@ -104,8 +138,16 @@ public class Bullet extends Entity {
     
     @Override
     public void act(float tpf) {
+        
         move(tpf);
-        collisionCheck();
+        boolean isAndroid = "Dalvik".equals(System.getProperty("java.vm.name"));
+        
+        if(isAndroid)
+            androidCollisionCheck();
+        
+        else
+            collisionCheck();
+        
     }
     
 }

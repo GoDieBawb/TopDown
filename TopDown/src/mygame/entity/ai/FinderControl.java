@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mygame.entity.ai;
 
-import mygame.entity.ai.Finder;
 import mygame.GameManager;
 import com.jme3.ai.navmesh.NavMesh;
 import com.jme3.ai.navmesh.NavMeshPathfinder;
@@ -91,9 +86,16 @@ public class FinderControl extends AbstractControl {
         Vector3f moveDir   = wp.getPosition().subtract(spatial.getWorldTranslation()).normalize().multLocal(4);
         
         if(wp.getPosition().distance(spatial.getWorldTranslation()) > 1) {
-            entity.getPhys().setWalkDirection(moveDir);
+            
+            float osMult = 1;
+        
+            if ("Dalvik".equals(System.getProperty("java.vm.name")))
+                osMult = .5f;            
+            
+            entity.getPhys().setWalkDirection(moveDir.mult(osMult));
             entity.getPhys().setViewDirection(moveDir);
             atGoal = false;
+            
         }
         
         else if (pathfinder.isAtGoalWaypoint()) {

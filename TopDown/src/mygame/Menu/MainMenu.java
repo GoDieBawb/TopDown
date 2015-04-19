@@ -68,7 +68,7 @@ public class MainMenu {
         titleText.addEffect(showEffect);
         titleText.setTextAlign(BitmapFont.Align.Center);
         screen.addElement(titleText);
-        titleText.setText("Zombie Shooter"); 
+        titleText.setText("Dead Crossing"); 
         titleText.setDimensions(screen.getWidth()/2, screen.getWidth()/4);
         titleText.setPosition(screen.getWidth()/2f - titleText.getWidth()/2, screen.getHeight() / 2f + titleText.getHeight()/2);
         
@@ -135,6 +135,7 @@ public class MainMenu {
     public void update() {
         
         if (startPressed)
+            
             if (System.currentTimeMillis()/100 - startPressTime/100 > 22f) {
                 startGame();
             }

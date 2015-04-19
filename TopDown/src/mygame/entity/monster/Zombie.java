@@ -189,6 +189,9 @@ public class Zombie extends Humanoid implements PhysicalEntity, Finder, Monster 
             
             if (System.currentTimeMillis()/1000 - deathTime/1000 > 3) {
                 removeFromParent();
+                detachAllChildren();
+                phys = null;
+                fc   = null;
             }
             
             return;
